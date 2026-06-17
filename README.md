@@ -27,83 +27,107 @@ This skill makes your coding agent **use OKF by default**, so knowledge is struc
 
 ---
 
-## What it does
-
-With this skill loaded, your agent will:
-
-| Capability | What happens |
-|------------|-------------|
-| **Document** | Creates OKF bundles for databases, APIs, pipelines, metrics |
-| **Read** | Loads existing OKF bundles for context before answering questions |
-| **Update** | Keeps knowledge fresh (timestamps, cross-links, descriptions) |
-| **Produce** | Outputs portable knowledge that works across agents and tools |
-
----
-
 ## How it works
 
-### Before
+<table>
+<tr>
+<td width="50%" align="center">
+
+**Without OKF**
+
+</td>
+<td width="50%" align="center">
+
+**With OKF**
+
+</td>
+</tr>
+<tr>
+<td>
 
 ```
-Agent documents your database  →  random markdown, no conventions
-Next agent starts from scratch  →  no context carries over
-Knowledge scattered across sessions  →  lost forever
+Agent documents your database
+  -> random markdown, no conventions
+
+Next agent starts from scratch
+  -> no context carries over
+
+Knowledge scattered across sessions
+  -> lost forever
 ```
 
-### After
+</td>
+<td>
 
 ```
-Agent documents your database  →  OKF bundle with structured frontmatter
-Next agent reads the bundle  →  full context, cross-linked
-Knowledge lives in git  →  versioned, reviewable, portable
+Agent documents your database
+  -> OKF bundle, structured frontmatter
+
+Next agent reads the bundle
+  -> full context, cross-linked
+
+Knowledge lives in git
+  -> versioned, reviewable, portable
 ```
+
+</td>
+</tr>
+</table>
 
 ---
 
 ## OKF in action
 
-Ask your agent to document a database:
+**You say:**
 
 > *"Document my Postgres orders table as an OKF bundle"*
 
-The agent produces:
-
-```markdown
----
-type: Table
-title: Orders
-description: One row per completed customer order
-tags: [sales, orders]
-timestamp: 2026-06-17T00:00:00Z
----
-
-# Schema
-
-| Column      | Type   | Description                      |
-|-------------|--------|----------------------------------|
-| `order_id`  | STRING | Unique order identifier          |
-| `customer_id` | STRING | FK to [customers](./customers.md) |
-
-# Related
-
-See [customers](./customers.md) for the join key.
-```
-
-Cross-linked, typed, timestamped. Ready for any agent to consume.
-
-### Bundle structure
+**Your agent produces:**
 
 ```
 knowledge/
-├── index.md                  # Root listing of all concepts
+├── index.md
 ├── datasets/
 │   ├── index.md
 │   └── sales.md
 └── tables/
     ├── index.md
-    ├── orders.md
+    ├── orders.md        <-- this file
     └── customers.md
 ```
+
+```markdown
+---
+type:        Table
+title:       Orders
+description: One row per completed customer order
+tags:        [sales, orders]
+timestamp:   2026-06-17T00:00:00Z
+---
+
+# Schema
+
+| Column       | Type   | Description                          |
+|--------------|--------|--------------------------------------|
+| order_id     | STRING | Unique order identifier              |
+| customer_id  | STRING | FK to customers                      |
+| total_usd    | NUMERIC| Order total in USD                   |
+| placed_at    | TIMESTAMP | When the order was placed         |
+
+# Related
+
+See customers.md for the join key.
+```
+
+**What just happened:**
+
+| Step | What the agent did |
+|------|--------------------|
+| 1 | Created a structured directory with `index.md` at root |
+| 2 | Generated YAML frontmatter with `type`, `title`, `description`, `tags`, `timestamp` |
+| 3 | Wrote a schema table with column names, types, and descriptions |
+| 4 | Cross-linked to the `customers` concept via markdown link |
+| 5 | Ready for any agent (yours or a teammate's) to read and build on |
 
 ---
 
