@@ -1,0 +1,12 @@
+{
+  "name": "okf-skill",
+  "description": "Teaches coding agents to use the Open Knowledge Format for portable, structured knowledge.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Catalin-Stefan Niculescu",
+    "url": "https://github.com/catancs"
+  },
+  "homepage": "https://github.com/catancs/okf-skill",
+  "license": "MIT",
+  "keywords": ["okf", "knowledge", "documentation", "agents", "open-knowledge-format"]
+}

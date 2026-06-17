@@ -1,0 +1,16 @@
+{
+  "name": "catancs",
+  "description": "Catalin's Claude Code plugins, agent-first developer tools.",
+  "owner": {
+    "name": "Catalin-Stefan Niculescu",
+    "url": "https://github.com/catancs"
+  },
+  "plugins": [
+    {
+      "name": "okf-skill",
+      "source": "./",
+      "description": "Teach your coding agent to use the Open Knowledge Format, portable structured knowledge for AI agents.",
+      "version": "0.1.0"
+    }
+  ]
+}

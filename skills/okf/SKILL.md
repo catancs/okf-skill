@@ -1,4 +1,9 @@
-# OKF — Open Knowledge Format Skill
+---
+name: okf-skill
+description: Use the Open Knowledge Format (OKF) when storing, retrieving, or documenting knowledge. Produces and reads OKF bundles, portable markdown with YAML frontmatter. Use when the user asks to "document this in OKF", "create an OKF bundle", "read the knowledge base", or when working with data systems that need structured documentation.
+---
+
+# OKF (Open Knowledge Format) Skill
 
 Use the [Open Knowledge Format (OKF)](https://cloud.google.com/blog/products/data-analytics/how-the-open-knowledge-format-can-improve-data-sharing) when storing, retrieving, or documenting knowledge. OKF makes knowledge portable across agents, tools, and teams.
 
@@ -25,12 +30,12 @@ Every `.md` file (except `index.md`) is a concept. Required and recommended fron
 
 ```markdown
 ---
-type: Table                    # REQUIRED — e.g. Table, Dataset, Metric, API, Playbook
-title: Orders                  # Recommended — display name
-description: Customer orders   # Recommended — one-line summary
-resource: https://...          # Optional — canonical URI
-tags: [sales, orders]          # Optional — cross-cutting tags
-timestamp: 2026-06-17T00:00:00Z # Optional — ISO 8601
+type: Table                    # REQUIRED (e.g. Table, Dataset, Metric, API, Playbook)
+title: Orders                  # Recommended, display name
+description: Customer orders   # Recommended, one-line summary
+resource: https://...          # Optional, canonical URI
+tags: [sales, orders]          # Optional, cross-cutting tags
+timestamp: 2026-06-17T00:00:00Z # Optional, ISO 8601
 ---
 
 # Schema
@@ -47,9 +52,9 @@ See [customers](/tables/customers.md) for the join key.
 1. `type` is the only required field. All else is optional.
 2. Reserved filenames: `index.md` (directory listing) and `log.md` (changelog). Never use as concept names.
 3. Cross-link with markdown: `[text](/path/to/concept.md)` (absolute) or `[text](./relative.md)`.
-4. Always add `description` — it's used in indexes and search.
+4. Always add `description`, it's used in indexes and search.
 5. Create `index.md` in each directory listing its contents.
-6. After writing, verify the bundle is self-consistent — links resolve, types are set, index exists.
+6. After writing, verify the bundle is self-consistent: links resolve, types are set, index exists.
 
 ## Types (suggested)
 
@@ -67,7 +72,7 @@ Define your own types as needed. Consumers will handle unknown types gracefully.
 
 ## Workflow
 
-1. **Document** — When asked to document a system, create an OKF bundle with `index.md` at root, organized by type.
-2. **Read** — Before answering questions about a system, check if an OKF bundle exists. Read `index.md` first, then drill into relevant concepts.
-3. **Update** — When schemas or systems change, update the relevant concept files and their timestamps.
-4. **Cross-reference** — Link related concepts. The value of OKF is in the graph, not the individual files.
+1. **Document** (when asked to document a system, create an OKF bundle with `index.md` at root, organized by type.)
+2. **Read** (before answering questions about a system, check if an OKF bundle exists. Read `index.md` first, then drill into relevant concepts.)
+3. **Update** (when schemas or systems change, update the relevant concept files and their timestamps.)
+4. **Cross-reference** (link related concepts. The value of OKF is in the graph, not the individual files.)
