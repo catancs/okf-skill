@@ -29,50 +29,25 @@ This skill makes your coding agent **use OKF by default**, so knowledge is struc
 
 ## How it works
 
-<table>
-<tr>
-<td width="50%" align="center">
+```mermaid
+flowchart LR
+    subgraph WITHOUT[" Without OKF"]
+        direction TB
+        A1[Agent documents database] --> A2[random markdown, no conventions]
+        A2 --> A3[next agent starts from scratch]
+        A3 --> A4[knowledge lost across sessions]
+    end
 
-**Without OKF**
+    subgraph WITH[" With OKF"]
+        direction TB
+        B1[Agent documents database] --> B2[OKF bundle with structured frontmatter]
+        B2 --> B3[next agent reads the bundle]
+        B3 --> B4[knowledge versioned, reviewable, portable]
+    end
 
-</td>
-<td width="50%" align="center">
-
-**With OKF**
-
-</td>
-</tr>
-<tr>
-<td>
-
+    style WITHOUT fill:#1a1a2e,stroke:#e74c3c,color:#fff
+    style WITH fill:#1a1a2e,stroke:#2ecc71,color:#fff
 ```
-Agent documents your database
-  -> random markdown, no conventions
-
-Next agent starts from scratch
-  -> no context carries over
-
-Knowledge scattered across sessions
-  -> lost forever
-```
-
-</td>
-<td>
-
-```
-Agent documents your database
-  -> OKF bundle, structured frontmatter
-
-Next agent reads the bundle
-  -> full context, cross-linked
-
-Knowledge lives in git
-  -> versioned, reviewable, portable
-```
-
-</td>
-</tr>
-</table>
 
 ---
 
@@ -121,54 +96,28 @@ See customers.md for the join key.
 
 **What just happened:**
 
-| Step | What the agent did |
-|------|--------------------|
-| 1 | Created a structured directory with `index.md` at root |
-| 2 | Generated YAML frontmatter with `type`, `title`, `description`, `tags`, `timestamp` |
-| 3 | Wrote a schema table with column names, types, and descriptions |
-| 4 | Cross-linked to the `customers` concept via markdown link |
-| 5 | Ready for any agent (yours or a teammate's) to read and build on |
+```mermaid
+flowchart LR
+    S1["1. Create directory"] --> S2["2. Generate YAML frontmatter"]
+    S2 --> S3["3. Write schema table"]
+    S3 --> S4["4. Cross-link concepts"]
+    S4 --> S5["5. Ready for any agent"]
+
+    style S1 fill:#2d3436,stroke:#0984e3,color:#fff
+    style S2 fill:#2d3436,stroke:#0984e3,color:#fff
+    style S3 fill:#2d3436,stroke:#0984e3,color:#fff
+    style S4 fill:#2d3436,stroke:#0984e3,color:#fff
+    style S5 fill:#2d3436,stroke:#00b894,color:#fff
+```
 
 ---
 
 ## Install
 
-**Claude Code plugin** (recommended):
-
 ```
 /plugin marketplace add catancs/okf-skill
 /plugin install okf-skill@catancs
 ```
-
-**Manual** (copy `skills/okf/SKILL.md` into your agent's skill directory):
-
-```bash
-# Claude Code
-cp skills/okf/SKILL.md ~/.claude/skills/okf/SKILL.md
-
-# OpenCode
-cp skills/okf/SKILL.md ~/.config/opencode/skills/okf/SKILL.md
-
-# Or paste into your CLAUDE.md / AGENTS.md
-```
-
-That's it. No dependencies, no install, no framework.
-
----
-
-## Concept types
-
-| Type | Use for |
-|------|---------|
-| `Dataset` | Collection of tables or views |
-| `Table` | A database table or view |
-| `API` | REST/gRPC endpoint |
-| `Metric` | Business or technical metric |
-| `Playbook` | Operational procedure |
-| `Pipeline` | Data processing pipeline |
-| `Reference` | External docs or glossary |
-
-Define your own types as needed. Consumers handle unknown types gracefully.
 
 ---
 
