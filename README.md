@@ -114,9 +114,11 @@ flowchart LR
 
 ## Install
 
+From within Claude Code:
+
 ```
 /plugin marketplace add catancs/okf-skill
-/plugin install okf-skill@catancs
+/plugin install okf-skill@okf-skill
 ```
 
 ---
