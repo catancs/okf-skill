@@ -1,55 +1,122 @@
-# okf — Open Knowledge Format Toolkit
+# 🧠 OKF Skill
 
-A Python toolkit for creating, validating, querying, and linting [Open Knowledge Format (OKF)](https://github.com/GoogleCloudPlatform/knowledge-catalog/tree/main/okf) bundles.
+> **The Open Knowledge Format skill for coding agents.**
+
+Teaches AI agents to store, retrieve, and manage knowledge using the
+[Open Knowledge Format (OKF)](https://cloud.google.com/blog/products/data-analytics/how-the-open-knowledge-format-can-improve-data-sharing) — an open specification from Google for representing knowledge as portable, agent-friendly markdown bundles.
+
+---
+
+## Why this exists
+
+Foundation models are powerful, but they lack **context**. The knowledge
+agents need — table schemas, API docs, runbooks, metrics — lives in
+fragmented, incompatible systems. Every agent builder solves the same
+context-assembly problem from scratch.
+
+[OKF](https://github.com/GoogleCloudPlatform/knowledge-catalog/tree/main/okf)
+is Google's answer: a minimal, vendor-neutral format where knowledge lives
+as **markdown files with YAML frontmatter**, organized in directories,
+cross-linked, version-controllable, and readable by both humans and agents.
+
+This skill makes your coding agent **use OKF by default** — so knowledge
+is structured, portable, and compounds across sessions.
+
+## What it does
+
+With this skill loaded, your agent will:
+
+- **Document** data systems as OKF bundles (databases, APIs, pipelines, metrics)
+- **Read** existing OKF bundles for context before answering questions
+- **Update** knowledge when schemas change, keeping timestamps and cross-links fresh
+- **Produce** portable knowledge that works across agents, tools, and teams
 
 ## Install
 
-```bash
-uv venv .venv --python 3.12
-uv pip install -e ".[dev]"
-```
-
-## Usage
-
-### As a Python module
-
-```python
-import okf
-
-# Validate
-result = okf.validate("./my-bundle")
-
-# Query
-results = okf.query("./my-bundle", type="Table", tags=["revenue"])
-
-# Lint
-report = okf.lint("./my-bundle")
-
-# Create
-okf.create_concept("./my-bundle", "tables/orders", type="Table", title="Orders")
-
-# Generate index
-okf.scaffold_index("./my-bundle")
-```
-
-### As a CLI
+Copy `SKILL.md` into your agent's skill directory:
 
 ```bash
-okf validate ./my-bundle
-okf lint ./my-bundle
-okf query ./my-bundle --type Table
-okf show ./my-bundle tables/orders
-okf create ./my-bundle tables/events --type Table --title "Events"
-okf index ./my-bundle
+# Claude Code
+cp SKILL.md ~/.claude/skills/okf/SKILL.md
+
+# OpenCode
+cp SKILL.md ~/.config/opencode/skills/okf/SKILL.md
+
+# Or paste it into your CLAUDE.md / AGENTS.md
 ```
 
-## SKILL.md
+That's it. No dependencies, no install, no framework.
 
-See [SKILL.md](SKILL.md) for the comprehensive agent guide — the OKF spec, workflows, and integration patterns.
+## How it works
 
-## Sample Bundle
+The skill is a concise instruction file (~70 lines) that teaches your agent
+the OKF conventions — the frontmatter structure, cross-linking rules,
+directory organization, and when to use the format.
 
-See [sample-bundle/](sample-bundle/) for a working OKF bundle documenting an e-commerce data system.
+It doesn't dump the full spec. It gives the agent just enough to produce
+conformant bundles and read existing ones.
+
+### Before
+
+```
+Agent documents your database → random markdown files, no conventions
+Next agent starts from scratch → no context carries over
+Knowledge scattered across sessions → lost forever
+```
+
+### After
+
+```
+Agent documents your database → OKF bundle with structured frontmatter
+Next agent reads the bundle → full context, cross-linked
+Knowledge lives in git → versioned, reviewable, portable
+```
+
+## Example
+
+Ask your agent to document a database:
+
+> "Document my Postgres orders table as an OKF bundle"
+
+The agent produces:
+
+```markdown
+---
+type: Table
+title: Orders
+description: One row per completed customer order
+tags: [sales, orders]
+timestamp: 2026-06-17T00:00:00Z
+---
+
+# Schema
+
+| Column     | Type   | Description                     |
+|------------|--------|---------------------------------|
+| `order_id` | STRING | Unique order identifier         |
+| `customer_id` | STRING | FK to [customers](./customers.md) |
+
+# Related
+
+See [customers](./customers.md) for the join key.
+```
+
+Cross-linked, typed, timestamped. Ready for any agent to consume.
+
+## Resources
+
+- [OKF Specification (v0.1)](https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md) — the full spec (it's short!)
+- [Google Cloud Blog](https://cloud.google.com/blog/products/data-analytics/how-the-open-knowledge-format-can-improve-data-sharing) — the announcement post
+- [Reference Agent & Samples](https://github.com/GoogleCloudPlatform/knowledge-catalog/tree/main/okf) — Google's proof-of-concept implementation
+- [Karpathy's LLM Wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) — the pattern that inspired OKF
+
+## Contributing
+
+Open source. Use it, fork it, improve it.
+
+If the OKF spec evolves, update the skill. If you find patterns that work
+better, share them. The value of a knowledge format comes from adoption,
+not ownership.
 
 ## License
 
